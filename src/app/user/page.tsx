@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner"
 import axios from "@/lib/api/axios";
 import React, { useState } from "react";
-// @ts-nocheck
+import { getErrorMessage } from "@/lib/utils/parse-error";
 
 export default function User() {
   const [phoneNo, setPhoneNo] = useState("");
@@ -37,12 +37,10 @@ export default function User() {
       setPhoneNo("");
       setName("");
 
-    } catch (err: any) {
-      //console.error("❌ Login failed:", err.response?.data?.message || err.message);
-
-      toast.error(
-          err.response?.data?.message || "Something went wrong while adding user.",
-      );
+    } catch (err) {
+      const message = getErrorMessage(err);
+      toast.error(`❌ ${message}`);
+      console.error("❌ Failed to create user:", message);
     }
   };
 
