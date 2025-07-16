@@ -91,6 +91,7 @@ export default function PropertyBookingsPage({
                         advance: b.AdvancePaid,
                         total: b.TotalAmount,
                         status: b.Status,
+                        remarks: b.Remarks
                     };
                 });
                 formatted.sort((a: Booking, b: Booking) => 

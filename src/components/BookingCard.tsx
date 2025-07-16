@@ -14,6 +14,7 @@ export default function BookingCard({
   advance,
   total,
   status,
+  remarks
 }: Booking) {
   return (
     <Link href={`/booking/${id}`}>
@@ -37,6 +38,7 @@ export default function BookingCard({
           </div>
         </div>
         <div className="flex justify-center">{status}</div>
+        {remarks!="NA" && <div className="flex justify-center">{remarks}</div>}
       </div>
     </Link>
   );

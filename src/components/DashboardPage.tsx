@@ -37,6 +37,7 @@ import {
 import { Filter } from "lucide-react";
 import { useMetadata } from "@/context/MetadataContext";
 import { getErrorMessage } from "@/lib/utils/parse-error";
+import { Textarea } from "@/components/ui/textarea";
 
 type FormatBooking ={
 
@@ -51,6 +52,7 @@ type FormatBooking ={
     advance:number;
     total:number;
     status:string;
+    remarks:string;
 }
 
 export type resBooking = {
@@ -100,6 +102,7 @@ export default function DashboardPage() {
         advance: "",
         total: "",
         status: bookingStatus[0],
+        remarks: ""
     });
     
 
@@ -127,6 +130,7 @@ export default function DashboardPage() {
                 advance: b.AdvancePaid,
                 total: b.TotalAmount,
                 status: b.Status,
+                remarks:b.Remarks
             }));
             formattedBookings.sort((a: Booking, b: Booking) => 
                 a.checkIn.getTime() - b.checkIn.getTime()
@@ -190,12 +194,13 @@ export default function DashboardPage() {
                 advance: Number(newBooking.advance),
                 total: Number(newBooking.total),
                 status: newBooking.status,
+                remarks: newBooking.remarks,
             };
 
             await axios.post("/bookings/createbooking", {
                 ...formattedBooking,
                 floor: "NA",
-                remarks: "NA",
+
             });
 
             setNewBooking({
@@ -210,6 +215,7 @@ export default function DashboardPage() {
                 advance: "",
                 total: "",
                 status: bookingStatus[0],
+                remarks:""
             });
 
             setOpen(false); // ✅ Close dialog
@@ -560,6 +566,17 @@ export default function DashboardPage() {
                                         })
                                     }
                                 />
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                            <Label>Remarks</Label>
+                            <Textarea
+                                id="remarks"
+                                className="col-span-4"
+                                value={newBooking.remarks}
+                                onChange={(e) =>
+                                    setNewBooking({ ...newBooking, remarks: e.target.value })
+                                }
+                            />
                             </div>
                         </div>
                         <DialogFooter>

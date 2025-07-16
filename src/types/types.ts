@@ -13,6 +13,7 @@ export type Booking ={
     advance:number;
     total:number;
     status:string;
+    remarks:string;
 }
 
 export type Property = {

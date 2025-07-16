@@ -33,7 +33,6 @@ export default function Login() {
       });
 
       const { token } = response.data;
-      console.log(token)
       localStorage.setItem("token", token); // store JWT
 
       toast.success("✅ Logged in successfully");
