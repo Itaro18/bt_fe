@@ -1,7 +1,13 @@
-// import Image from "next/image";
+"use client"
+import LogoutButton from "@/components/LogoutButton";
+
 
 export default function Home() {
+
+
   return (
-   <div>hello</div>
+    <div>
+      <LogoutButton/>
+    </div>
   );
 }
