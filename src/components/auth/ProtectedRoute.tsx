@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { getToken } from "@/lib/auth/token";
+import { getToken, getTokenPayload, logout } from "@/lib/auth/token";
 import { Loader2 } from "lucide-react";
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -12,12 +12,16 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
 
   useEffect(() => {
     const token = getToken();
+    const payload = getTokenPayload();
+    const now = Math.floor(Date.now() / 1000); // current time in seconds
 
-    // Allow access to /login and /users even without token
     const publicRoutes = ["/login", "/users"];
     const isPublic = publicRoutes.includes(pathname);
 
-    if (!token && !isPublic) {
+    const isTokenExpired = payload?.exp && payload.exp < now;
+
+    if ((!token || isTokenExpired) && !isPublic) {
+      logout(); // Clean up expired token
       router.replace("/login");
     } else {
       setIsLoading(false);
